@@ -3,6 +3,8 @@ package pl.maltoza.maltozasecurityjwt.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -11,5 +13,9 @@ public class UserService {
 
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
