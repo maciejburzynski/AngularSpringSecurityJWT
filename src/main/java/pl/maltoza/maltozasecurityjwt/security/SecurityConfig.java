@@ -3,6 +3,7 @@ package pl.maltoza.maltozasecurityjwt.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import pl.maltoza.maltozasecurityjwt.auth.JwtTokenFilter;
 import pl.maltoza.maltozasecurityjwt.user.UserService;
 
@@ -30,6 +34,7 @@ public class SecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers("/auth").permitAll()
+                .antMatchers("/users").permitAll()
                 .antMatchers("/hello-admin").hasAuthority("admin-resource:read")
                 .antMatchers("/hello-user").hasAuthority("user-resource:read");
 
@@ -40,6 +45,17 @@ public class SecurityConfig {
     }
 
     @Bean
+    public WebMvcConfigurer addCorsMappings() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedHeaders("*").allowedOrigins("*");
+            }
+        };
+    }
+
+    @Bean
+    @Lazy
     public PasswordEncoder getBcryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }

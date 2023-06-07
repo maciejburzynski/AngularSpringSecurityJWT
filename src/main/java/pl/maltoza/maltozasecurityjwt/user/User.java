@@ -20,15 +20,17 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-    String username;
-    String password;
+    private Long id;
+    private String username;
+    private String email;
+    private String password;
     @Enumerated(EnumType.STRING)
-    UserRole userRole;
-    boolean isAccountNonExpired;
-    boolean isAccountNonLocked;
-    boolean isCredentialsNonExpired;
-    boolean isEnabled;
+    private UserRole userRole;
+    private Integer activationCode;
+    private boolean isAccountNonExpired;
+    private boolean isAccountNonLocked;
+    private boolean isCredentialsNonExpired;
+    private boolean isEnabled;
 
     public User(String username, String password, UserRole userRole, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
         this.username = username;
@@ -38,6 +40,17 @@ public class User implements UserDetails {
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.isEnabled = isEnabled;
+    }
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.userRole = UserRole.USER;
+        this.isAccountNonExpired = true;
+        this.isAccountNonLocked = true;
+        this.isCredentialsNonExpired = true;
+        this.isEnabled = true;
     }
 
     @Override
