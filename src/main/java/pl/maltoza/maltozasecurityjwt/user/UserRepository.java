@@ -18,4 +18,8 @@ public class UserRepository {
     public Optional<User> findByUsername(String username) {
         return iUserRepository.findByUsername(username);
     }
+
+    public Optional<User> findActivationCodeByUserId(Long userId) {
+        return iUserRepository.findById(userId);
+    }
 }

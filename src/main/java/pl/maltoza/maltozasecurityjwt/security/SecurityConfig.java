@@ -33,8 +33,9 @@ public class SecurityConfig {
         http.headers().frameOptions().disable();
 
         http.authorizeRequests()
-                .antMatchers("/auth").permitAll()
-                .antMatchers("/users").permitAll()
+                .antMatchers("activation/users").permitAll()
+                .antMatchers("registration/users").permitAll()
+                .antMatchers("/login/users").permitAll()
                 .antMatchers("/hello-admin").hasAuthority("admin-resource:read")
                 .antMatchers("/hello-user").hasAuthority("user-resource:read");
 
@@ -49,7 +50,10 @@ public class SecurityConfig {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedHeaders("*").allowedOrigins("*");
+                registry.addMapping("/**")
+                        .allowedHeaders("*")
+                        .allowedOrigins("http://localhost:4200")
+                        .allowCredentials(true);
             }
         };
     }

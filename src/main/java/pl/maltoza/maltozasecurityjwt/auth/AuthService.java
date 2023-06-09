@@ -35,12 +35,14 @@ public class AuthService {
         Algorithm algorithm = Algorithm.HMAC256("Kluczyk-Byku");
         String token = JWT.create()
                 .withIssuer("maltoza-security-jwt")
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + (1 * 60 * 1000))) // 1 minute
+                .withSubject(String.valueOf(user.getId()))
+                .withExpiresAt(new Date(System.currentTimeMillis() + (10 * 60 * 1000))) // 10 minutes
                 .withArrayClaim("permissions", permissions)
                 .sign(algorithm);
 
-        httpServletResponse.addCookie(new Cookie("auth-cookie-malto", token));
+        Cookie cookie = new Cookie("auth-cookie-malto", token);
+        cookie.setPath("/");
+        httpServletResponse.addCookie(cookie);
         return new AuthResponse(user.getUsername(), token);
     }
 }

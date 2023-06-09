@@ -24,14 +24,16 @@ import java.util.stream.Stream;
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
 
         if (request.getCookies() == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = getCookieValue(request, "Authorization");
+        String token = getCookieValue(request, "auth-cookie-malto");
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = getUsernamePasswordAuthenticationToken(token);
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
@@ -41,8 +43,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     public UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256("Kluczyk-Byku"); //use more secure key
-        JWTVerifier verifier = JWT.require(algorithm)
-                .build(); //Reusable verifier instance
+        JWTVerifier verifier = JWT.require(algorithm).build(); //Reusable verifier instance
         DecodedJWT jwt = verifier.verify(token);
         String[] permissions = jwt.getClaim("permissions").asArray(String.class);
         List<SimpleGrantedAuthority> permissionsList = Stream.of(permissions)
