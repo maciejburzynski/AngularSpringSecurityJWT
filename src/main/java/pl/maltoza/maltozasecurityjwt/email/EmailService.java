@@ -2,7 +2,6 @@ package pl.maltoza.maltozasecurityjwt.email;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.annotation.Order;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,7 @@ import java.io.File;
 
 @Service
 @RequiredArgsConstructor
-@Order(2)
 public class EmailService {
-
 
     private final JavaMailSender javaMailSender;
 
@@ -29,7 +26,7 @@ public class EmailService {
         mimeMessageHelper.setTo(to);
         mimeMessageHelper.setSubject(subject);
         mimeMessageHelper.setText(text, isHtmlContent);
-        mimeMessageHelper.addAttachment(file.getName(), file);
+//        mimeMessageHelper.addAttachment(file.getName(), file);
         javaMailSender.send(mimeMessage);
     }
 }

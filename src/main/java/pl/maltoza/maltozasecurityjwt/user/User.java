@@ -47,10 +47,10 @@ public class User implements UserDetails {
         this.password = password;
         this.email = email;
         this.userRole = UserRole.USER;
-        this.isAccountNonExpired = true;
-        this.isAccountNonLocked = true;
-        this.isCredentialsNonExpired = true;
-        this.isEnabled = true;
+        this.isAccountNonExpired = false;
+        this.isAccountNonLocked = false;
+        this.isCredentialsNonExpired = false;
+        this.isEnabled = false;
     }
 
     @Override

@@ -4,11 +4,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
+import static java.lang.String.*;
+
 @Service
 public class ActivationCodeService {
 
     public Integer generateActivationCode(){
         Random random = new Random();
-        return random.nextInt(10000);
+        return Integer.valueOf(format("%04d%n", random.nextInt(10000)));
     }
 }

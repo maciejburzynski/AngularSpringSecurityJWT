@@ -39,19 +39,13 @@ public class UserRestController {
     }
 
 
-//    @CrossOrigin(origins = "http://localhost:4200",
-//            exposedHeaders = ("Access-Control-Allow-Origin"),
-//            allowedHeaders = ("Access-Control-Allow-Origin"))
     @PostMapping(path = "/registration/users")
     ResponseEntity register(@RequestBody UserCreationRequest userCreationRequest,
                             HttpServletResponse httpServletResponse) {
         try {
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.set("Access-Control-Allow-Credentials","true");
             userService.createUser(userCreationRequest);
             log.info("User to register: {}", userCreationRequest);
             return ResponseEntity
-//                    .headers(headers)
                     .status(200)
                     .body(authService.getTokenResponse(userCreationRequest, httpServletResponse));
         } catch (AuthenticationException e) {
