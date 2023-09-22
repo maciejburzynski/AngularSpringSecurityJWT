@@ -41,7 +41,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     }
 
-    public UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(String token) {
+    private UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256("Kluczyk-Byku"); //use more secure key
         JWTVerifier verifier = JWT.require(algorithm).build(); //Reusable verifier instance
         DecodedJWT jwt = verifier.verify(token);

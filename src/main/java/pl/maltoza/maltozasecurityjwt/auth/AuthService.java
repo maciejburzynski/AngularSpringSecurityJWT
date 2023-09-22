@@ -30,7 +30,7 @@ public class AuthService {
 
         String[] permissions = user.getUserRole().getPermissions()
                 .stream()
-                .map(permission -> permission.getPermission()).toArray(String[]::new);
+                .map(permission -> permission.getPermission()).toArray(value -> new String[value]);
 
         Algorithm algorithm = Algorithm.HMAC256("Kluczyk-Byku");
         String token = JWT.create()
@@ -39,6 +39,7 @@ public class AuthService {
                 .withExpiresAt(new Date(System.currentTimeMillis() + (10 * 60 * 1000))) // 10 minutes
                 .withArrayClaim("permissions", permissions)
                 .sign(algorithm);
+
 
         Cookie cookie = new Cookie("auth-cookie-malto", token);
         cookie.setPath("/");
